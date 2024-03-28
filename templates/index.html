@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Music Recommendation System</title>
+    <style>
+        body {
+            font-family: sans-serif;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            margin: 20px;
+        }
+
+        label {
+            margin-bottom: 5px;
+        }
+
+        select,
+        button {
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button {
+            background-color: #4caf50;
+            color: white;
+            cursor: pointer;
+        }
+
+        .recommendation {
+            margin-top: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 10px;
+            background-color: #f9f9f9;
+        }
+
+        .error {
+            color: red;
+            font-weight: bold;
+        }
+        .song {
+            margin-bottom: 5px;
+        }
+
+        #recommendations {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Music Recommendation System</h1>
+
+    <form action="/recom" method="POST">
+        <label for="song">Select a song:</label>
+        <select name="names" id="song">
+            <option value="">-- Select a song --</option>
+            {% for song in names %}
+                <option value="{{ song }}">{{ song }}</option>
+            {% endfor %}
+        </select>
+        <button type="submit">Get Recommendations</button>
+    </form>
+
+    <div id="recommendations">
+        {% if error %}
+            <p class="error">{{ error }}</p>
+        {% else %}
+            {% if user_song %}
+                <h2>Recommended Songs for "{{ user_song }}":</h2>
+                {% for song in recommended_songs %}
+                <!-- <ul>
+                    {% for song in recommended_songs %}
+                        <li>{{ song[1] }} by {{ song[2] }} (Similarity Score: {{ song[0] }})</li>
+                    {% endfor %}
+                </ul> -->
+                <div class="recommendation">
+                    <div class="song">
+                        <strong>{{ song[1] }}</strong> by {{ song[2] }}
+                    </div>
+                    <div>Similarity Score: {{ song[0] }}</div>
+                </div>
+                {% endfor %}
+            {% endif %}
+        {% endif %}
+    </div>
+
+    <!-- Include your JavaScript file here -->
+    <script src="script.js"></script>
+</body>
+</html>
